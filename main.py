@@ -1,5 +1,5 @@
 import json
-from flask import Flask, Response, request
+from flask import Flask, Response, request,send_from_directory
 
 # CONSTANTS
 ID_ERROR = 'ID does not exist'
@@ -9,7 +9,16 @@ SUCCESSFUL_CODE = 200
 SIMPLE_STORAGE = {}
 SIMPLE_ID = 0
 
-app = Flask("app")
+app = Flask("app", static_folder="static")
+
+@app.route('/static')
+def static_index():
+    return send_from_directory('static', 'hack.html')
+
+@app.route('/static/html')
+def static_html_index():
+    return app.send_static_file('static/html/index.html')
+
 
 @app.route('/<int:id>', methods = ['GET'])
 def home_get(id):
